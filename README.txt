@@ -1,0 +1,1 @@
+This Add-on for QGIS is developed with the intention to provide help for non python programers

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>rasterstats_view</class>
+ <widget class="QMainWindow" name="rasterstats_view">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>817</width>
+    <height>204</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Raster Statistics</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="but_raster">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>131</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Choose Raster file</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="but_close">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>155</y>
+      <width>131</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Close</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="but_vector">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>88</y>
+      <width>131</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Choose Raster file</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="but_run">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>155</y>
+      <width>131</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Run</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="histogram">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>13</y>
+      <width>101</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Histogram</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="general">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>13</y>
+      <width>91</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>General stats</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="raster_name">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>55</y>
+      <width>611</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Raster file</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vector_name">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>93</y>
+      <width>621</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Vector file</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="but_output">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>121</y>
+      <width>131</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Choose output file</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="output_file">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>126</y>
+      <width>621</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Output file</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressbar">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>155</y>
+      <width>461</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="Highlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>170</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="Highlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>240</green>
+          <blue>240</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="Highlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>51</red>
+          <green>153</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="textVisible">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
