@@ -18,7 +18,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-import gdal, ogr, osr
+from osgeo import gdal, ogr, osr
 import time
 import numpy as np
 
