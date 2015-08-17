@@ -181,13 +181,14 @@ class RunMyRasterStatistics(WorkerThread):
         a=['Error in computation']
         # Read raster as arrays
         banddataraster = raster.GetRasterBand(1)
-        dataraster = banddataraster.ReadAsArray(xoff, yoff, xcount, ycount).astype(np.float64)
+        dataraster = banddataraster.ReadAsArray(xoff, yoff, xcount, ycount).astype(np.float)
 
         bandmask = target_ds.GetRasterBand(1)
         datamask = bandmask.ReadAsArray(0, 0, xcount, ycount).astype(np.int)
 
         # Calculate statistics of zonal raster`
         if histogram:
+            dataraster=dataraster.astype(np.int)
             b = np.bincount((dataraster*datamask).flat, weights=None, minlength=None)
         else:
             # Mask zone of raster

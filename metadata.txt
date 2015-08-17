@@ -1,39 +1,39 @@
-# This file contains metadata for your plugin. Beginning
-# with version 1.8 this is the preferred way to supply information about a
-# plugin. The current method of embedding metadata in __init__.py will
-# be supported until version 2.0
+; This file contains metadata for your plugin. Beginning
+; with version 1.8 this is the preferred way to supply information about a
+; plugin. The current method of embedding metadata in __init__.py will
+; be supported until version 2.0
 
-# This file should be included when you package your plugin.
+; This file should be included when you package your plugin.
 
-# Mandatory items:
+; Mandatory items:
 
 
 [general]
 name=RasterStats
+email=pedro@xl-optim.com
+author=Pedro Camargo
 qgisMinimumVersion=2.8
 description=Raster Statistics toolbox for QGIS
+about=This plugin is designed to return basic raster statistics regarding 
+        raster files for polygons in a given layer. It is MANDATORY that the vector 
+        layer has a field named ID with unique numbers for result reporting.
 version=0.1
-author=Pedro Camargo
-email=pedro@xl-optim.com
+tracker=https://bitbucket.org/pedrocamargo/rasterstats/issues
+repository=https://bitbucket.org/pedrocamargo/rasterstats
+; end of mandatory metadata
 
+; Optional items:
 
-# end of mandatory metadata
+; Uncomment the following line and add your changelog entries:
+; changelog=
 
-# Optional items:
-
-# Uncomment the following line and add your changelog entries:
-# changelog=
-
-# tags are comma separated with spaces allowed
-tags=
+; tags are comma separated with spaces allowed
+tags=raster, statistics
 
 homepage=www.xl-optim.com/rasterstats
-tracker=
-repository=https://bitbucket.org/pedrocamargo/rasterstats
 icon=icon.png
-# experimental flag
-experimental=True
+experimental=False
 
-# deprecated flag (applies to the whole plugin, not just a single version
+; deprecated flag (applies to the whole plugin, not just a single version
 deprecated=False
 
