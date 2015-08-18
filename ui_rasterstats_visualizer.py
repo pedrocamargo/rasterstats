@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_rasterstats_visualizer.ui'
 #
-# Created: Fri Aug 14 13:34:41 2015
+# Created: Tue Aug 18 14:03:02 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -92,6 +92,17 @@ class Ui_rasterstats_view(object):
         self.progressbar.setProperty("value", 0)
         self.progressbar.setTextVisible(True)
         self.progressbar.setObjectName(_fromUtf8("progressbar"))
+        self.slider_decimals = QtGui.QSlider(self.centralwidget)
+        self.slider_decimals.setGeometry(QtCore.QRect(400, 13, 160, 19))
+        self.slider_decimals.setMaximum(5)
+        self.slider_decimals.setPageStep(5)
+        self.slider_decimals.setOrientation(QtCore.Qt.Horizontal)
+        self.slider_decimals.setTickPosition(QtGui.QSlider.TicksBelow)
+        self.slider_decimals.setTickInterval(1)
+        self.slider_decimals.setObjectName(_fromUtf8("slider_decimals"))
+        self.label_decimals = QtGui.QLabel(self.centralwidget)
+        self.label_decimals.setGeometry(QtCore.QRect(250, 13, 141, 20))
+        self.label_decimals.setObjectName(_fromUtf8("label_decimals"))
         #rasterstats_view.setCentralWidget(self.centralwidget)
         #self.statusbar = QtGui.QStatusBar(rasterstats_view)
         #self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -104,7 +115,7 @@ class Ui_rasterstats_view(object):
         rasterstats_view.setWindowTitle(_translate("rasterstats_view", "Raster Statistics", None))
         self.but_raster.setText(_translate("rasterstats_view", "Choose Raster file", None))
         self.but_close.setText(_translate("rasterstats_view", "Close", None))
-        self.but_vector.setText(_translate("rasterstats_view", "Choose Raster file", None))
+        self.but_vector.setText(_translate("rasterstats_view", "Choose Vector file", None))
         self.but_run.setText(_translate("rasterstats_view", "Run", None))
         self.histogram.setText(_translate("rasterstats_view", "Histogram", None))
         self.general.setText(_translate("rasterstats_view", "General stats", None))
@@ -112,4 +123,5 @@ class Ui_rasterstats_view(object):
         self.vector_name.setText(_translate("rasterstats_view", "Vector file", None))
         self.but_output.setText(_translate("rasterstats_view", "Choose output file", None))
         self.output_file.setText(_translate("rasterstats_view", "Output file", None))
+        self.label_decimals.setText(_translate("rasterstats_view", "Histogram decimal places: 0", None))
 

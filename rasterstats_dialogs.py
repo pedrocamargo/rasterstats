@@ -54,13 +54,14 @@ class WorkerThread(QThread):
 
 
 class RunMyRasterStatistics(WorkerThread):
-    def __init__(self, parentThread, input_zone_polygon, input_value_raster, output_file, histogram):
+    def __init__(self, parentThread, input_zone_polygon, input_value_raster, output_file, decimals, histogram):
         WorkerThread.__init__(self, parentThread)
         self.input_zone_polygon = input_zone_polygon
         self.input_value_raster = input_value_raster
         self.output_file = output_file
+        self.decimals = decimals
         self.histogram = histogram
-        self.emit(SIGNAL("ProgressValue( PyQt_PyObject )"), 50)
+
     def doWork(self):
         # We colect info on the vector file
         shp = ogr.Open(self.input_zone_polygon)
@@ -68,23 +69,31 @@ class RunMyRasterStatistics(WorkerThread):
         featList = range(lyr.GetFeatureCount())
         statDict = {}
         
-        columns=0
+        tot_feat = float(lyr.GetFeatureCount())
+        i = 0
+        columns = 0
         for FID in featList:
             feat = lyr.GetFeature(FID)
-            statistics = self.zonal_stats(feat, self.input_zone_polygon, self.input_value_raster, self.histogram)
+            statistics = self.zonal_stats(feat, self.input_zone_polygon, self.input_value_raster, self.decimals, self.histogram)
             statDict[feat.GetField("ID")] = statistics
             if self.histogram and statistics is not None:
                 if columns < statistics.shape[0]:
                     columns = statistics.shape[0]
-                
-            #self.emit(SIGNAL("ProgressValue( PyQt_PyObject )"), (evol_bar, self.featcount))
-            
+            i += 1
+            self.emit(SIGNAL("ProgressValue( PyQt_PyObject )"), int(100*(float(i)/tot_feat)))
+
 
         O=open(self.output_file,'w')
         if self.histogram:
             txt = 'Zone ID'
-            for i in range(columns):
-                    txt=txt+','+str(i)
+
+            if self.decimals > 0:
+                divide = pow(10, self.decimals)
+                for i in range(columns):
+                    txt = txt + ',' + str(round(float(i)/divide,self.decimals))
+            else:
+                for i in range(columns):
+                    txt = txt + ',' + str(i)
             print >>O, txt
         else:
             print >>O, 'Zone ID,Average,Mean,Median,Standard deviation,Variance,Minimum,Maximum'
@@ -94,18 +103,20 @@ class RunMyRasterStatistics(WorkerThread):
                 print >>O, txt + ',No data or error in computation'
             else:
                 for i in statDict[ids]:
-                    txt=txt+','+str(i)
+                    txt = txt + ',' + str(i)
+                for i in range(columns - len(statDict[ids])):
+                    txt = txt + ',0'
                 print >>O, txt
         O.flush()
         O.close()
         self.emit(SIGNAL("FinishedThreadedProcedure( PyQt_PyObject )"),0)
-    def zonal_stats(self, feat, input_zone_polygon, input_value_raster, histogram=False):
+
+    def zonal_stats(self, feat, input_zone_polygon, input_value_raster, decimals, histogram=False):
 
         # Open data
         raster = gdal.Open(input_value_raster)
         shp = ogr.Open(input_zone_polygon)
         lyr = shp.GetLayer()
-
 
         # Get raster georeference info
         transform = raster.GetGeoTransform()
@@ -174,42 +185,46 @@ class RunMyRasterStatistics(WorkerThread):
         # Rasterize zone polygon to raster
         gdal.RasterizeLayer(target_ds, [1], lyr, burn_values=[1])
 
-        
-        
-        
-        #try:
-        a=['Error in computation']
-        # Read raster as arrays
-        banddataraster = raster.GetRasterBand(1)
-        dataraster = banddataraster.ReadAsArray(xoff, yoff, xcount, ycount).astype(np.float)
 
-        bandmask = target_ds.GetRasterBand(1)
-        datamask = bandmask.ReadAsArray(0, 0, xcount, ycount).astype(np.int)
+        try:
+            # Read raster as arrays
+            banddataraster = raster.GetRasterBand(1)
+            dataraster = banddataraster.ReadAsArray(xoff, yoff, xcount, ycount).astype(np.float)
 
-        # Calculate statistics of zonal raster`
-        if histogram:
-            dataraster=dataraster.astype(np.int)
-            b = np.bincount((dataraster*datamask).flat, weights=None, minlength=None)
-        else:
-            # Mask zone of raster
-            zoneraster = np.ma.masked_array(dataraster,  np.logical_not(datamask))
-            b = [np.average(zoneraster), np.mean(zoneraster), np.median(zoneraster), np.std(zoneraster), np.var(zoneraster), np.min(zoneraster), np.max(zoneraster)]
-        a = b
-        return a
-        #except:
-        #    print 'Error computing statistics'
+            bandmask = target_ds.GetRasterBand(1)
+            datamask = bandmask.ReadAsArray(0, 0, xcount, ycount).astype(np.int)
+
+            # Calculate statistics of zonal raster`
+            if histogram:
+                if decimals >0:
+                    dataraster = dataraster * pow(10,decimals)
+                dataraster = dataraster.astype(np.int)
+                a = np.bincount((dataraster*datamask).flat, weights=None, minlength=None)
+            else:
+                # Mask zone of raster
+                zoneraster = np.ma.masked_array(dataraster,  np.logical_not(datamask))
+                a = [np.average(zoneraster), np.mean(zoneraster), np.median(zoneraster), np.std(zoneraster), np.var(zoneraster), np.min(zoneraster), np.max(zoneraster)]
+            return a
+        except:
+            print 'Error computing statistics'
             
 class open_rasterstats_class(QtGui.QDialog,Ui_rasterstats_view):
     def __init__(self, iface):
         QtGui.QDialog.__init__(self)
         self.iface = iface
         self.setupUi(self)
+        self.decimals = 0
+
         self.all_inputs = np.zeros(3,np.int32)
         
         self.but_raster.clicked.connect(self.browse_rasterfile)
         self.but_vector.clicked.connect(self.browse_vectorfile)
         self.but_output.clicked.connect(self.browse_outputfile)
-        
+
+        self.histogram.toggled.connect(self.sets_histogram)
+        self.general.toggled.connect(self.sets_histogram)
+        self.slider_decimals.valueChanged.connect(self.update_decimals)
+
         self.but_run.clicked.connect(self.run_stats)
         self.but_close.clicked.connect(self.closewidget)
         
@@ -240,7 +255,20 @@ class open_rasterstats_class(QtGui.QDialog,Ui_rasterstats_view):
             
     def closewidget(self):
         self.close()
-    
+
+    def update_decimals(self):
+        self.label_decimals.setText('Histogram decimal places: '+str(self.slider_decimals.value()))
+        self.decimals = self.slider_decimals.value()
+
+    def sets_histogram(self):
+        status = False
+        if self.histogram.isChecked():
+            status = True
+
+        self.label_decimals.setVisible(status)
+        self.slider_decimals.setVisible(status)
+
+
     def ProgressValueFromThread(self, val):
         self.progressbar.setValue(val)
         
@@ -261,6 +289,5 @@ class open_rasterstats_class(QtGui.QDialog,Ui_rasterstats_view):
                 histogram = True
             
             self.workerThread = RunMyRasterStatistics(qgis.utils.iface.mainWindow(), self.vector_name.text(), self.raster_name.text(), 
-                                self.output_file.text(), histogram)
+                                self.output_file.text(), self.decimals, histogram)
             self.runThread()
-            

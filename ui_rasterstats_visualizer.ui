@@ -65,7 +65,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Choose Raster file</string>
+     <string>Choose Vector file</string>
     </property>
    </widget>
    <widget class="QPushButton" name="but_run">
@@ -226,6 +226,44 @@
     </property>
     <property name="textVisible">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QSlider" name="slider_decimals">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>13</y>
+      <width>160</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>5</number>
+    </property>
+    <property name="pageStep">
+     <number>5</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksBelow</enum>
+    </property>
+    <property name="tickInterval">
+     <number>1</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_decimals">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>13</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Histogram decimal places: 0</string>
     </property>
    </widget>
   </widget>
