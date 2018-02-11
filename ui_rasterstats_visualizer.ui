@@ -6,39 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>817</width>
-    <height>204</height>
+    <width>601</width>
+    <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Raster Statistics</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="but_raster">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>50</y>
-      <width>131</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Choose Raster file</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="but_close">
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>155</y>
+      <y>250</y>
       <width>131</width>
-      <height>23</height>
+      <height>30</height>
      </rect>
     </property>
     <property name="font">
@@ -50,31 +32,13 @@
      <string>Close</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="but_vector">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>88</y>
-      <width>131</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Choose Vector file</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="but_run">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>155</y>
+      <y>250</y>
       <width>131</width>
-      <height>23</height>
+      <height>30</height>
      </rect>
     </property>
     <property name="font">
@@ -89,7 +53,7 @@
    <widget class="QRadioButton" name="histogram">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>132</x>
       <y>13</y>
       <width>101</width>
       <height>17</height>
@@ -107,7 +71,7 @@
      <rect>
       <x>20</x>
       <y>13</y>
-      <width>91</width>
+      <width>111</width>
       <height>17</height>
      </rect>
     </property>
@@ -115,39 +79,13 @@
      <string>General stats</string>
     </property>
    </widget>
-   <widget class="QLabel" name="raster_name">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>55</y>
-      <width>611</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Raster file</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="vector_name">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>93</y>
-      <width>621</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Vector file</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="but_output">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>121</y>
+      <y>198</y>
       <width>131</width>
-      <height>23</height>
+      <height>30</height>
      </rect>
     </property>
     <property name="font">
@@ -163,9 +101,9 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>126</y>
-      <width>621</width>
-      <height>16</height>
+      <y>200</y>
+      <width>401</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
@@ -179,9 +117,9 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>155</y>
-      <width>461</width>
-      <height>23</height>
+      <y>250</y>
+      <width>251</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="palette">
@@ -231,7 +169,7 @@
    <widget class="QSlider" name="slider_decimals">
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>420</x>
       <y>13</y>
       <width>160</width>
       <height>19</height>
@@ -258,7 +196,7 @@
      <rect>
       <x>250</x>
       <y>13</y>
-      <width>141</width>
+      <width>151</width>
       <height>20</height>
      </rect>
     </property>
@@ -266,9 +204,90 @@
      <string>Histogram decimal places: 0</string>
     </property>
    </widget>
+   <widget class="QgsMapLayerComboBox" name="cob_raster">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>271</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QgsMapLayerComboBox" name="cob_vector">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>271</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="output_file_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>81</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Raster file</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="output_file_3">
+    <property name="geometry">
+     <rect>
+      <x>24</x>
+      <y>120</y>
+      <width>81</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Polygons</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="output_file_4">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>120</y>
+      <width>81</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ID Field</string>
+    </property>
+   </widget>
+   <widget class="QgsFieldComboBox" name="mFieldComboBox">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>150</y>
+      <width>261</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QgsFieldComboBox</class>
+   <extends>QComboBox</extends>
+   <header>qgsfieldcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QgsMapLayerComboBox</class>
+   <extends>QComboBox</extends>
+   <header>qgsmaplayercombobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
