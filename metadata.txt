@@ -12,14 +12,13 @@
 name=RasterStats
 email=pedro@xl-optim.com
 author=Pedro Camargo
-qgisMinimumVersion=2.8
+qgisMinimumVersion=2.14
 description=Raster Statistics toolbox for QGIS
-about=This plugin is designed to return basic raster statistics regarding raster files for polygons in a given layer. It is MANDATORY that the vector 
-        layer has a field named ID with unique numbers for result reporting.
+about=This plugin is designed to return basic raster statistics regarding raster files for polygons in a given layer.
         In addition to the tools that already exist in QGIS for computing raster statistics, this plugin allows for the computation of histograms for zones and provides a wider range of summary statistics (Average,Mean,Median,Standard deviation,Variance,Minimum and Maximum)
-version=0.1
-tracker=https://bitbucket.org/pedrocamargo/rasterstats/issues
-repository=https://bitbucket.org/pedrocamargo/rasterstats
+version=0.2
+tracker=https://github.com/pedrocamargo/rasterstats/issues
+repository=https://github.com/pedrocamargo/rasterstats
 ; end of mandatory metadata
 
 ; Optional items:

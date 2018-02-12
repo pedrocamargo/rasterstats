@@ -1,60 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>rasterstats_view</class>
- <widget class="QMainWindow" name="rasterstats_view">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>601</width>
-    <height>304</height>
+    <width>583</width>
+    <height>335</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Raster Statistics</string>
+   <string>RasterStats</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="but_close">
+  <widget class="QFrame" name="frame_5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>561</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="label_decimals">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>250</y>
-      <width>131</width>
-      <height>30</height>
+      <x>240</x>
+      <y>10</y>
+      <width>151</width>
+      <height>20</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
     <property name="text">
-     <string>Close</string>
+     <string>Histogram decimal places: 0</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="but_run">
+   <widget class="QRadioButton" name="general">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>250</y>
-      <width>131</width>
-      <height>30</height>
+      <x>10</x>
+      <y>10</y>
+      <width>111</width>
+      <height>17</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
     <property name="text">
-     <string>Run</string>
+     <string>General stats</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="slider_decimals">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>10</y>
+      <width>131</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>5</number>
+    </property>
+    <property name="pageStep">
+     <number>5</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksBelow</enum>
+    </property>
+    <property name="tickInterval">
+     <number>1</number>
     </property>
    </widget>
    <widget class="QRadioButton" name="histogram">
     <property name="geometry">
      <rect>
-      <x>132</x>
-      <y>13</y>
+      <x>122</x>
+      <y>10</y>
       <width>101</width>
       <height>17</height>
      </rect>
@@ -66,24 +95,141 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QRadioButton" name="general">
+  </widget>
+  <widget class="QFrame" name="frame_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>561</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QgsFieldComboBox" name="cob_id">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>13</y>
-      <width>111</width>
-      <height>17</height>
+      <x>300</x>
+      <y>30</y>
+      <width>241</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="output_file_3">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>0</y>
+      <width>81</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>General stats</string>
+     <string>Polygons</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="output_file_4">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>0</y>
+      <width>81</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ID Field</string>
+    </property>
+   </widget>
+   <widget class="QgsMapLayerComboBox" name="cob_polygon">
+    <property name="geometry">
+     <rect>
+      <x>13</x>
+      <y>30</y>
+      <width>271</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>561</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QgsMapLayerComboBox" name="cob_raster">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>31</y>
+      <width>271</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="output_file_2">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>1</y>
+      <width>81</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Raster file</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>214</y>
+     <width>561</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="output_file">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>10</y>
+      <width>371</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Output file</string>
     </property>
    </widget>
    <widget class="QPushButton" name="but_output">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>198</y>
+      <x>10</x>
+      <y>8</y>
       <width>131</width>
       <height>30</height>
      </rect>
@@ -97,19 +243,22 @@
      <string>Choose output file</string>
     </property>
    </widget>
-   <widget class="QLabel" name="output_file">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>200</y>
-      <width>401</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Output file</string>
-    </property>
-   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>270</y>
+     <width>561</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
    <widget class="QProgressBar" name="progressbar">
     <property name="enabled">
      <bool>true</bool>
@@ -117,8 +266,8 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>250</y>
-      <width>251</width>
+      <y>10</y>
+      <width>221</width>
       <height>30</height>
      </rect>
     </property>
@@ -166,115 +315,43 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QSlider" name="slider_decimals">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>13</y>
-      <width>160</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>5</number>
-    </property>
-    <property name="pageStep">
-     <number>5</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBelow</enum>
-    </property>
-    <property name="tickInterval">
-     <number>1</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_decimals">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>13</y>
-      <width>151</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Histogram decimal places: 0</string>
-    </property>
-   </widget>
-   <widget class="QgsMapLayerComboBox" name="cob_raster">
+   <widget class="QPushButton" name="but_run">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>80</y>
-      <width>271</width>
+      <y>10</y>
+      <width>131</width>
       <height>30</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QgsMapLayerComboBox" name="cob_vector">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>150</y>
-      <width>271</width>
-      <height>30</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="output_file_2">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>50</y>
-      <width>81</width>
-      <height>30</height>
-     </rect>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="text">
-     <string>Raster file</string>
+     <string>Run</string>
     </property>
    </widget>
-   <widget class="QLabel" name="output_file_3">
+   <widget class="QPushButton" name="but_close">
     <property name="geometry">
      <rect>
-      <x>24</x>
-      <y>120</y>
-      <width>81</width>
+      <x>160</x>
+      <y>10</y>
+      <width>131</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="text">
-     <string>Polygons</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="output_file_4">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>120</y>
-      <width>81</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ID Field</string>
-    </property>
-   </widget>
-   <widget class="QgsFieldComboBox" name="mFieldComboBox">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>150</y>
-      <width>261</width>
-      <height>30</height>
-     </rect>
+     <string>Close</string>
     </property>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <customwidgets>
   <customwidget>
