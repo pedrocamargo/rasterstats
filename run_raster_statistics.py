@@ -4,11 +4,12 @@
 
     Name:        QGIS plgin iniitalizer
                               -------------------
-        begin                : 2018-02-11
-        copyright            : Pedro Camargo
-        Original Author: Pedro Camargo pedro@xl-optim.com
-        Contributors:
-        Licence: See LICENSE.TXT
+        begin           : 2018-02-11
+        Last Edit       : 2018-04-20
+        copyright       : Pedro Camargo
+        Original Author : Pedro Camargo pedro@xl-optim.com
+        Contributors    :
+        Licence         : See LICENSE.TXT
  ***************************************************************************/
 """
 
@@ -54,7 +55,6 @@ class RunMyRasterStatistics(WorkerThread):
         pixelWidth = raster_info[1]
         pixelHeight = raster_info[5]
 
-
         xOrigin = self.raster_layer.extent().xMinimum()
         yOrigin = self.raster_layer.extent().yMaximum()
         pixelWidth = self.raster_layer.rasterUnitsPerPixelX()
@@ -96,16 +96,16 @@ class RunMyRasterStatistics(WorkerThread):
                     else:
                         statDict[feat_id] = [np.average(dataraster), np.mean(dataraster), np.median(dataraster),
                                              np.std(dataraster), np.var(dataraster), np.min(dataraster),
-                                             np.max(dataraster)]
+                                             np.max(dataraster), self.mad(dataraster), np.size(dataraster)]
                 else:
                     self.errors.append('Statistics for polygon with ID ' + str(feat_id) + ' was empty')
 
         columns = 0
         for feat_id, dictionary in statDict.iteritems():
-                if dictionary is not None:
-                    if self.histogram:
-                        if columns < dictionary.shape[0]:
-                            columns = dictionary.shape[0]
+            if dictionary is not None:
+                if self.histogram:
+                    if columns < dictionary.shape[0]:
+                        columns = dictionary.shape[0]
 
         self.emit(SIGNAL("ProgressValue( PyQt_PyObject )"), 100)
         O = open(self.output_file, 'w')
@@ -118,9 +118,12 @@ class RunMyRasterStatistics(WorkerThread):
             else:
                 for i in range(columns):
                     txt = txt + ',' + str(i)
-            print >> O, txt
+                    O.write(txt + '\n')
         else:
-            print >> O, 'Zone ID,Average,Mean,Median,Standard deviation,Variance,Minimum,Maximum'
+            txt = 'Zone ID,Average,Mean,Median,Standard deviation,Variance,Minimum,' \
+                  'Maximum,Median absolute deviation,pixel count\n'
+            O.write(txt)
+
         tot_feat = len(statDict.keys())
         for i, ids in enumerate(statDict.keys()):
             self.emit(SIGNAL("ProgressValue( PyQt_PyObject )"), int(100 * (float(i) / tot_feat)))
@@ -132,14 +135,26 @@ class RunMyRasterStatistics(WorkerThread):
                     txt = txt + ',' + str(i)
                 for i in range(columns - len(statDict[ids])):
                     txt = txt + ',0'
-                print >> O, txt
+                O.write(txt + '\n')
+
         O.flush()
         O.close()
 
         if len(self.errors) > 0:
             O = open(self.output_file + '.errors', 'w')
             for txt in self.errors:
-                print >> O, txt
+                O.write(txt + '\n')
             O.flush()
             O.close()
         self.emit(SIGNAL("FinishedThreadedProcedure( PyQt_PyObject )"), 0)
+
+    # From https://stackoverflow.com/questions/8930370/where-can-i-find-mad-mean-absolute-deviation-in-scipy
+    @staticmethod
+    def mad(arr):
+        """ Median Absolute Deviation: a "Robust" version of standard deviation.
+            Indices variabililty of the sample.
+            https://en.wikipedia.org/wiki/Median_absolute_deviation
+        """
+        arr = np.ma.array(arr).compressed()  # should be faster to not use masked arrays.
+        med = np.median(arr)
+        return np.median(np.abs(arr - med))
