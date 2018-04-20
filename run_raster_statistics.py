@@ -21,6 +21,10 @@ from PyQt4.QtGui import *
 from worker_thread import WorkerThread
 from osgeo import gdal
 import numpy as np
+# import logging
+# import tempfile
+# import os
+# logging.basicConfig(filename=os.path.join(tempfile.gettempdir(),'RasterStats.log'),level=logging.INFO)
 
 Qt = QtCore.Qt
 
@@ -61,6 +65,8 @@ class RunMyRasterStatistics(WorkerThread):
         pixelHeight = self.raster_layer.rasterUnitsPerPixelY()
 
         tot_feat = self.polygon_layer.featureCount()
+        xEnd = self.raster_layer.extent().xMaximum()
+        # yEnd = self.raster_layer.extent().yMinimum()
         for i, feat in enumerate(self.polygon_layer.getFeatures()):
             self.emit(SIGNAL("ProgressValue( PyQt_PyObject )"), int(100 * (float(i) / tot_feat)))
             feat_id = feat.attributes()[idx]
@@ -76,6 +82,8 @@ class RunMyRasterStatistics(WorkerThread):
 
             if bb is not None:
                 xmin, xmax, ymin, ymax = bb.xMinimum(), bb.xMaximum(), bb.yMinimum(), bb.yMaximum()
+                xmax = min(xmax, xEnd)
+
                 # Specify offset and rows and columns to read
                 xoff = int(abs(xmin - xOrigin) / pixelWidth)
                 yoff = int(abs(yOrigin - ymax) / pixelHeight)
