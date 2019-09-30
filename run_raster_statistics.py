@@ -102,7 +102,7 @@ class RunMyRasterStatistics(WorkerThread):
                             dataraster = dataraster * pow(10, self.decimals)
                         statDict[feat_id] = np.bincount((dataraster.astype(np.int)).flat, weights=None, minlength=None)
                     else:
-                        statDict[feat_id] = [np.average(dataraster), np.mean(dataraster), np.median(dataraster),
+                        statDict[feat_id] = [np.mean(dataraster), np.median(dataraster),
                                              np.std(dataraster), np.var(dataraster), np.min(dataraster),
                                              np.max(dataraster), self.mad(dataraster), np.size(dataraster)]
                 else:
@@ -128,7 +128,7 @@ class RunMyRasterStatistics(WorkerThread):
                     txt = txt + ',' + str(i)
                     O.write(txt + '\n')
         else:
-            txt = 'Zone ID,Average,Mean,Median,Standard deviation,Variance,Minimum,' \
+            txt = 'Zone ID,Mean,Median,Standard deviation,Variance,Minimum,' \
                   'Maximum,Median absolute deviation,pixel count\n'
             O.write(txt)
 
@@ -164,5 +164,5 @@ class RunMyRasterStatistics(WorkerThread):
             https://en.wikipedia.org/wiki/Median_absolute_deviation
         """
         arr = np.ma.array(arr).compressed()  # should be faster to not use masked arrays.
-        med = np.median(arr)
-        return np.median(np.abs(arr - med))
+        med = np.median(arr.astype(np.float64))
+        return np.median(np.abs(arr.astype(np.float64) - med))
