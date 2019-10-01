@@ -1,30 +1,15 @@
-; This file contains metadata for your plugin. Beginning
-; with version 1.8 this is the preferred way to supply information about a
-; plugin. The current method of embedding metadata in __init__.py will
-; be supported until version 2.0
-
-; This file should be included when you package your plugin.
-
-; Mandatory items:
-
-
 [general]
 name=RasterStats
 email=pedro@xl-optim.com
 author=Pedro Camargo
-qgisMinimumVersion=2.14
+qgisMinimumVersion=2.99
+qgisMaximumVersion=3.99
 description=Raster Statistics toolbox for QGIS
 about=This plugin is designed to return basic raster statistics regarding raster files for polygons in a given layer.
         In addition to the tools that already exist in QGIS for computing raster statistics, this plugin allows for the computation of histograms for zones and provides a wider range of summary statistics (Average,Mean,Median,Standard deviation,Variance,Minimum and Maximum)
-version=0.4.2
+version=0.4.3
 tracker=https://github.com/pedrocamargo/rasterstats/issues
 repository=https://github.com/pedrocamargo/rasterstats
-; end of mandatory metadata
-
-; Optional items:
-
-; Uncomment the following line and add your changelog entries:
-; changelog=
 
 ; tags are comma separated with spaces allowed
 tags=raster, statistics
