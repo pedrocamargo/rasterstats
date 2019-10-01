@@ -1,4 +1,4 @@
-#copied from https://github.com/AequilibraE/AequilibraE-GUI
+# copied from https://github.com/AequilibraE/AequilibraE-GUI
 
 from qgis.core import *
 from qgis.PyQt.QtCore import *

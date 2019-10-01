@@ -14,8 +14,11 @@ RasterStats for QGIS
  This script initializes the plugin, making it known to QGIS.
 """
 import sys
+
 sys.dont_write_bytecode = True
+
 
 def classFactory(iface):
     from .rasterstats_menu import rasterstats_menu
+
     return rasterstats_menu(iface)

@@ -19,14 +19,22 @@ from osgeo import gdal
 import numpy as np
 
 
-
 from .worker_thread import WorkerThread
 
 Qt = QtCore.Qt
 
 
 class RunMyRasterStatistics(WorkerThread):
-    def __init__(self, parentThread, polygon_layer, polygon_id, raster_layer, output_file, decimals, histogram):
+    def __init__(
+        self,
+        parentThread,
+        polygon_layer,
+        polygon_id,
+        raster_layer,
+        output_file,
+        decimals,
+        histogram,
+    ):
         WorkerThread.__init__(self, parentThread)
         self.polygon_layer = polygon_layer
         self.polygon_id = polygon_id
@@ -38,8 +46,12 @@ class RunMyRasterStatistics(WorkerThread):
         # Creates transform if necessary
         self.transform = None
 
-        EPSG1 = QgsCoordinateReferenceSystem(int(self.polygon_layer.crs().authid().split(":")[1]))
-        EPSG2 = QgsCoordinateReferenceSystem(int(self.raster_layer.crs().authid().split(":")[1]))
+        EPSG1 = QgsCoordinateReferenceSystem(
+            int(self.polygon_layer.crs().authid().split(":")[1])
+        )
+        EPSG2 = QgsCoordinateReferenceSystem(
+            int(self.raster_layer.crs().authid().split(":")[1])
+        )
         if EPSG1 != EPSG2:
             self.transform = QgsCoordinateTransform(EPSG1, EPSG2, QgsProject.instance())
 
@@ -74,7 +86,12 @@ class RunMyRasterStatistics(WorkerThread):
             bb = geom.boundingBox()
 
             if bb is not None:
-                xmin, xmax, ymin, ymax = bb.xMinimum(), bb.xMaximum(), bb.yMinimum(), bb.yMaximum()
+                xmin, xmax, ymin, ymax = (
+                    bb.xMinimum(),
+                    bb.xMaximum(),
+                    bb.yMinimum(),
+                    bb.yMaximum(),
+                )
                 xmax = min(xmax, xEnd)
 
                 # Specify offset and rows and columns to read
@@ -93,13 +110,26 @@ class RunMyRasterStatistics(WorkerThread):
                     if self.histogram:
                         if self.decimals > 0:
                             dataraster = dataraster * pow(10, self.decimals)
-                        statDict[feat_id] = np.bincount((dataraster.astype(np.int)).flat, weights=None, minlength=None)
+                        statDict[feat_id] = np.bincount(
+                            (dataraster.astype(np.int)).flat,
+                            weights=None,
+                            minlength=None,
+                        )
                     else:
-                        statDict[feat_id] = [np.mean(dataraster), np.median(dataraster),
-                                             np.std(dataraster), np.var(dataraster), np.min(dataraster),
-                                             np.max(dataraster), self.mad(dataraster), np.size(dataraster)]
+                        statDict[feat_id] = [
+                            np.mean(dataraster),
+                            np.median(dataraster),
+                            np.std(dataraster),
+                            np.var(dataraster),
+                            np.min(dataraster),
+                            np.max(dataraster),
+                            self.mad(dataraster),
+                            np.size(dataraster),
+                        ]
                 else:
-                    self.errors.append('Statistics for polygon with ID ' + str(feat_id) + ' was empty')
+                    self.errors.append(
+                        "Statistics for polygon with ID " + str(feat_id) + " was empty"
+                    )
 
         columns = 0
         for feat_id, dictionary in statDict.items():
@@ -109,20 +139,22 @@ class RunMyRasterStatistics(WorkerThread):
                         columns = dictionary.shape[0]
 
         self.ProgressValue.emit(100)
-        O = open(self.output_file, 'w')
+        O = open(self.output_file, "w")
         if self.histogram:
-            txt = 'Zone ID'
+            txt = "Zone ID"
             if self.decimals > 0:
                 divide = pow(10, self.decimals)
                 for i in range(columns):
-                    txt = txt + ',' + str(round(float(i) / divide, self.decimals))
+                    txt = txt + "," + str(round(float(i) / divide, self.decimals))
             else:
                 for i in range(columns):
-                    txt = txt + ',' + str(i)
-                    O.write(txt + '\n')
+                    txt = txt + "," + str(i)
+                    O.write(txt + "\n")
         else:
-            txt = 'Zone ID,Mean,Median,Standard deviation,Variance,Minimum,' \
-                  'Maximum,Median absolute deviation,pixel count\n'
+            txt = (
+                "Zone ID,Mean,Median,Standard deviation,Variance,Minimum,"
+                "Maximum,Median absolute deviation,pixel count\n"
+            )
             O.write(txt)
 
         tot_feat = len(statDict.keys())
@@ -130,21 +162,21 @@ class RunMyRasterStatistics(WorkerThread):
             self.ProgressValue.emit(int(100 * (float(i) / tot_feat)))
             txt = str(ids)
             if statDict[ids] is None:
-                self.errors.append(txt + ', No data or error in computation')
+                self.errors.append(txt + ", No data or error in computation")
             else:
                 for i in statDict[ids]:
-                    txt = txt + ',' + str(i)
+                    txt = txt + "," + str(i)
                 for i in range(columns - len(statDict[ids])):
-                    txt = txt + ',0'
-                O.write(txt + '\n')
+                    txt = txt + ",0"
+                O.write(txt + "\n")
 
         O.flush()
         O.close()
 
         if len(self.errors) > 0:
-            O = open(self.output_file + '.errors', 'w')
+            O = open(self.output_file + ".errors", "w")
             for txt in self.errors:
-                O.write(txt + '\n')
+                O.write(txt + "\n")
             O.flush()
             O.close()
         self.finished_threaded_procedure.emit(0)
@@ -156,6 +188,8 @@ class RunMyRasterStatistics(WorkerThread):
             Indices variabililty of the sample.
             https://en.wikipedia.org/wiki/Median_absolute_deviation
         """
-        arr = np.ma.array(arr).compressed()  # should be faster to not use masked arrays.
+        arr = np.ma.array(
+            arr
+        ).compressed()  # should be faster to not use masked arrays.
         med = np.median(arr.astype(np.float64))
         return np.median(np.abs(arr.astype(np.float64) - med))

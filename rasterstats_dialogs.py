@@ -22,13 +22,16 @@ from qgis.PyQt.QtGui import *
 from qgis.PyQt.QtWidgets import QFileDialog
 
 from .run_raster_statistics import RunMyRasterStatistics
+
 # from qgis.gui import QgsMapLayerProxyModel
 
 Qt = QtCore.Qt
 
-sys.modules['qgsfieldcombobox'] = qgis.gui
-sys.modules['qgsmaplayercombobox'] = qgis.gui
-FORM_CLASS, _ = uic.loadUiType(os.path.join(os.path.dirname(__file__), 'ui_rasterstats_visualizer.ui'))
+sys.modules["qgsfieldcombobox"] = qgis.gui
+sys.modules["qgsmaplayercombobox"] = qgis.gui
+FORM_CLASS, _ = uic.loadUiType(
+    os.path.join(os.path.dirname(__file__), "ui_rasterstats_visualizer.ui")
+)
 
 
 class rasterstatsDialog(QtWidgets.QDialog, FORM_CLASS):
@@ -51,10 +54,11 @@ class rasterstatsDialog(QtWidgets.QDialog, FORM_CLASS):
         self.but_close.clicked.connect(self.closewidget)
 
     def browse_outputfile(self):
-        newname = QFileDialog.getSaveFileName(self, 'Output file', self.output_file.text(),
-                                              "Comma-separated file(*.csv)")
+        newname = QFileDialog.getSaveFileName(
+            self, "Output file", self.output_file.text(), "Comma-separated file(*.csv)"
+        )
         if newname is None:
-            self.output_file.setText('')
+            self.output_file.setText("")
         else:
             self.output_file.setText(newname[0])
 
@@ -62,7 +66,9 @@ class rasterstatsDialog(QtWidgets.QDialog, FORM_CLASS):
         self.close()
 
     def update_decimals(self):
-        self.label_decimals.setText('Histogram decimal places: ' + str(self.slider_decimals.value()))
+        self.label_decimals.setText(
+            "Histogram decimal places: " + str(self.slider_decimals.value())
+        )
         self.decimals = self.slider_decimals.value()
 
     def sets_histogram(self):
@@ -77,7 +83,6 @@ class rasterstatsDialog(QtWidgets.QDialog, FORM_CLASS):
         self.progressbar.setValue(val)
 
     def runThread(self):
-
         self.workerThread.ProgressValue.connect(self.ProgressValueFromThread)
         self.workerThread.finished_threaded_procedure.connect(self.closewidget)
 
@@ -89,7 +94,13 @@ class rasterstatsDialog(QtWidgets.QDialog, FORM_CLASS):
         if self.histogram.isChecked():
             histogram = True
 
-        self.workerThread = RunMyRasterStatistics(qgis.utils.iface.mainWindow(), self.cob_polygon.currentLayer(),
-                                                  self.cob_id.currentText(), self.cob_raster.currentLayer(),
-                                                  self.output_file.text(), self.decimals, histogram)
+        self.workerThread = RunMyRasterStatistics(
+            qgis.utils.iface.mainWindow(),
+            self.cob_polygon.currentLayer(),
+            self.cob_id.currentText(),
+            self.cob_raster.currentLayer(),
+            self.output_file.text(),
+            self.decimals,
+            histogram,
+        )
         self.runThread()
