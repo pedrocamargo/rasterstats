@@ -14,17 +14,13 @@
 """
 
 from qgis.core import *
-import qgis
-from PyQt4 import QtCore
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from worker_thread import WorkerThread
+from qgis.PyQt import QtCore, QtGui, QtWidgets, uic
 from osgeo import gdal
 import numpy as np
-# import logging
-# import tempfile
-# import os
-# logging.basicConfig(filename=os.path.join(tempfile.gettempdir(),'RasterStats.log'),level=logging.INFO)
+
+
+
+from .worker_thread import WorkerThread
 
 Qt = QtCore.Qt
 
@@ -68,7 +64,8 @@ class RunMyRasterStatistics(WorkerThread):
         xEnd = self.raster_layer.extent().xMaximum()
         # yEnd = self.raster_layer.extent().yMinimum()
         for i, feat in enumerate(self.polygon_layer.getFeatures()):
-            self.emit(SIGNAL("ProgressValue( PyQt_PyObject )"), int(100 * (float(i) / tot_feat)))
+            self.ProgressValue.emit(int(100 * (float(i) / tot_feat)))
+
             feat_id = feat.attributes()[idx]
             statDict[feat_id] = None
 
@@ -109,13 +106,13 @@ class RunMyRasterStatistics(WorkerThread):
                     self.errors.append('Statistics for polygon with ID ' + str(feat_id) + ' was empty')
 
         columns = 0
-        for feat_id, dictionary in statDict.iteritems():
+        for feat_id, dictionary in statDict.items():
             if dictionary is not None:
                 if self.histogram:
                     if columns < dictionary.shape[0]:
                         columns = dictionary.shape[0]
 
-        self.emit(SIGNAL("ProgressValue( PyQt_PyObject )"), 100)
+        self.ProgressValue.emit(100)
         O = open(self.output_file, 'w')
         if self.histogram:
             txt = 'Zone ID'
@@ -134,7 +131,7 @@ class RunMyRasterStatistics(WorkerThread):
 
         tot_feat = len(statDict.keys())
         for i, ids in enumerate(statDict.keys()):
-            self.emit(SIGNAL("ProgressValue( PyQt_PyObject )"), int(100 * (float(i) / tot_feat)))
+            self.ProgressValue.emit(int(100 * (float(i) / tot_feat)))
             txt = str(ids)
             if statDict[ids] is None:
                 self.errors.append(txt + ', No data or error in computation')
@@ -154,7 +151,7 @@ class RunMyRasterStatistics(WorkerThread):
                 O.write(txt + '\n')
             O.flush()
             O.close()
-        self.emit(SIGNAL("FinishedThreadedProcedure( PyQt_PyObject )"), 0)
+        self.finished_threaded_procedure.emit(0)
 
     # From https://stackoverflow.com/questions/8930370/where-can-i-find-mad-mean-absolute-deviation-in-scipy
     @staticmethod

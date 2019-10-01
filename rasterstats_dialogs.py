@@ -14,14 +14,14 @@
 """
 
 import sys, os
-from qgis.core import *
 import qgis
-from PyQt4 import QtCore, QtGui, uic
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from qgis.core import *
+from qgis.PyQt import QtWidgets, QtCore, QtGui, uic
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import *
 
-from run_raster_statistics import RunMyRasterStatistics
-from qgis.gui import QgsMapLayerProxyModel
+from .run_raster_statistics import RunMyRasterStatistics
+# from qgis.gui import QgsMapLayerProxyModel
 
 Qt = QtCore.Qt
 
@@ -30,9 +30,9 @@ sys.modules['qgsmaplayercombobox'] = qgis.gui
 FORM_CLASS, _ = uic.loadUiType(os.path.join(os.path.dirname(__file__), 'ui_rasterstats_visualizer.ui'))
 
 
-class open_rasterstats_class(QtGui.QDialog, FORM_CLASS):
+class rasterstatsDialog(QtWidgets.QDialog, FORM_CLASS):
     def __init__(self, iface):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         self.iface = iface
         self.setupUi(self)
         self.decimals = 0
@@ -76,8 +76,9 @@ class open_rasterstats_class(QtGui.QDialog, FORM_CLASS):
         self.progressbar.setValue(val)
 
     def runThread(self):
-        QObject.connect(self.workerThread, SIGNAL("ProgressValue( PyQt_PyObject )"), self.ProgressValueFromThread)
-        QObject.connect(self.workerThread, SIGNAL("FinishedThreadedProcedure( PyQt_PyObject )"), self.closewidget)
+
+        self.workerThread.ProgressValue.connect(self.ProgressValueFromThread)
+        self.workerThread.finished_threaded_procedure.connect(self.closewidget)
 
         self.workerThread.start()
         self.exec_()
