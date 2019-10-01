@@ -1,2 +1,0 @@
-This Add-on for QGIS is developed with the intention to provide help for non python programers.
-In addition to the tools that already exist in QGIS for computing raster statistics, this plugin allows for the computation of histograms for zones and provides a wider range of summary statistics (Average,Mean,Median,Standard deviation,Variance,Minimum and Maximum)
