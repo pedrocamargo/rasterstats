@@ -2,7 +2,7 @@
 /***************************************************************************
 RasterStats for QGIS
  
-    Name:        QGIS plgin iniitalizer
+    Name:        QGIS plgin  iniitalizer
                               -------------------
         begin               : 2014-03-19
         edited              : 2019-10-01
