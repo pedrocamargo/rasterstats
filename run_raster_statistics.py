@@ -37,23 +37,19 @@ class RunMyRasterStatistics(WorkerThread):
         self.errors = []
         # Creates transform if necessary
         self.transform = None
-        if self.raster_layer.crs() != self.polygon_layer.dataProvider().crs():
-            self.transform = QgsCoordinateTransform(self.polygon_layer.dataProvider().crs(), self.raster_layer.crs())
+
+        EPSG1 = QgsCoordinateReferenceSystem(int(self.polygon_layer.crs().authid().split(":")[1]))
+        EPSG2 = QgsCoordinateReferenceSystem(int(self.raster_layer.crs().authid().split(":")[1]))
+        if EPSG1 != EPSG2:
+            self.transform = QgsCoordinateTransform(EPSG1, EPSG2, QgsProject.instance())
 
     def doWork(self):
         # We colect info on the vector file
-        idx = self.polygon_layer.fieldNameIndex(self.polygon_id)
+        idx = self.polygon_layer.dataProvider().fieldNameIndex(self.polygon_id)
         statDict = {}
 
         # Information on the raster layer
-        raster_width = self.raster_layer.width()
-        raster_height = self.raster_layer.height()
         raster = gdal.Open(self.raster_layer.source())
-        raster_info = raster.GetGeoTransform()
-        xOrigin = raster_info[0]
-        yOrigin = raster_info[3]
-        pixelWidth = raster_info[1]
-        pixelHeight = raster_info[5]
 
         xOrigin = self.raster_layer.extent().xMinimum()
         yOrigin = self.raster_layer.extent().yMaximum()

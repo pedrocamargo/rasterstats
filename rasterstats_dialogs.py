@@ -5,7 +5,7 @@
     Name:        QGIS plgin iniitalizer
                               -------------------
         Begin                : 2014-03-19
-        Edit                : 2018-02-11
+        Edit                : 2019-10-01
         Copyright            : Pedro Camargo
         Original Author: Pedro Camargo pedro@xl-optim.com
         Contributors: 
@@ -19,6 +19,7 @@ from qgis.core import *
 from qgis.PyQt import QtWidgets, QtCore, QtGui, uic
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtWidgets import QFileDialog
 
 from .run_raster_statistics import RunMyRasterStatistics
 # from qgis.gui import QgsMapLayerProxyModel
@@ -50,12 +51,31 @@ class rasterstatsDialog(QtWidgets.QDialog, FORM_CLASS):
         self.but_close.clicked.connect(self.closewidget)
 
     def browse_outputfile(self):
-        newname = QFileDialog.getSaveFileName(None, 'Output file', self.output_file.text(),
+        # dlg = QFileDialog(self)
+        # dlg.setWindowTitle(box_name)
+        # dlg.setViewMode(QFileDialog.Detail)
+        # a = []
+        # for i in file_types:
+        #     a.append(clss.tr(i))
+        # dlg.setNameFilters(a)
+        # dlg.setDefaultSuffix(default_type)
+        # new_name = None
+        # extension = None
+        # if dlg.exec_():
+        #     new_name = dlg.selectedFiles()[0]
+        #     new_name = new_name.replace("..", ".")
+        #     if new_name[-4] == ".":
+        #         extension = new_name[-3:]
+        #     else:
+        #         extension = new_name[-4:]
+        #         return new_name, extension
+
+        newname = QFileDialog.getSaveFileName(self, 'Output file', self.output_file.text(),
                                               "Comma-separated file(*.csv)")
         if newname is None:
             self.output_file.setText('')
         else:
-            self.output_file.setText(newname)
+            self.output_file.setText(newname[0])
 
     def closewidget(self):
         self.close()
