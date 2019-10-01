@@ -5,7 +5,7 @@
     Name:        QGIS plgin iniitalizer
                               -------------------
         Begin                : 2014-03-19
-        Edit                : 2019-10-01
+        Edit                 : 2019-10-01
         Copyright            : Pedro Camargo
         Original Author: Pedro Camargo pedro@xl-optim.com
         Contributors: 

@@ -7,8 +7,6 @@ from qgis.PyQt.QtCore import *
 class WorkerThread(QThread):
     jobFinished = pyqtSignal("PyQt_PyObject")
     ProgressValue = pyqtSignal("PyQt_PyObject")
-    ProgressMaxValue = pyqtSignal("PyQt_PyObject")
-    ProgressText = pyqtSignal("PyQt_PyObject")
     finished_threaded_procedure = pyqtSignal("PyQt_PyObject")
 
     def __init__(self, parentThread):

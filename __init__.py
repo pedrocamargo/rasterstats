@@ -4,9 +4,9 @@ RasterStats for QGIS
  
     Name:        QGIS plgin iniitalizer
                               -------------------
-        begin                : 2014-03-19
-        edited               : 2019-10-01
-        copyright            : Pedro Camargo
+        begin               : 2014-03-19
+        edited              : 2019-10-01
+        copyright           : Pedro Camargo
         Original Author: Pedro Camargo pedro@xl-optim.com
         Contributors: 
         Licence: See LICENSE.TXT
