@@ -51,25 +51,6 @@ class rasterstatsDialog(QtWidgets.QDialog, FORM_CLASS):
         self.but_close.clicked.connect(self.closewidget)
 
     def browse_outputfile(self):
-        # dlg = QFileDialog(self)
-        # dlg.setWindowTitle(box_name)
-        # dlg.setViewMode(QFileDialog.Detail)
-        # a = []
-        # for i in file_types:
-        #     a.append(clss.tr(i))
-        # dlg.setNameFilters(a)
-        # dlg.setDefaultSuffix(default_type)
-        # new_name = None
-        # extension = None
-        # if dlg.exec_():
-        #     new_name = dlg.selectedFiles()[0]
-        #     new_name = new_name.replace("..", ".")
-        #     if new_name[-4] == ".":
-        #         extension = new_name[-3:]
-        #     else:
-        #         extension = new_name[-4:]
-        #         return new_name, extension
-
         newname = QFileDialog.getSaveFileName(self, 'Output file', self.output_file.text(),
                                               "Comma-separated file(*.csv)")
         if newname is None:
